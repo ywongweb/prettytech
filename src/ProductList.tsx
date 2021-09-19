@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import {
+  Button,
   FlatList,
   SafeAreaView,
   StatusBar,
@@ -8,7 +9,8 @@ import {
   View,
 } from 'react-native'
 import {useAppDispatch, useAppSelector} from './redux/reduxHooks'
-import {products} from './redux/products.slice'
+import {ProductItem, products} from './redux/products.slice'
+import {basket} from './redux/basket.slice'
 
 export const ProductList = () => {
   const dispatch = useAppDispatch()
@@ -28,16 +30,28 @@ export const ProductList = () => {
 
     fetchItems()
   }, [])
-  const renderItem = ({item}) => {
+  const renderItem = ({item}: {item: ProductItem}) => {
     return (
       <View style={styles.item}>
         <Text style={styles.title}>{item.name}</Text>
+        <Button
+          title="Add"
+          onPress={() => {
+            dispatch(basket.actions.addItem(item.id))
+          }}
+        />
       </View>
     )
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      <Button
+        title="Clear basket"
+        onPress={() => {
+          dispatch(basket.actions.clear())
+        }}
+      />
       <FlatList
         data={items}
         renderItem={renderItem}

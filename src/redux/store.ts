@@ -1,5 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from '@reduxjs/toolkit'
 import {products} from './products.slice'
+import {basket} from './basket.slice'
 
 const middlewares = [
   /* other middlewares */
@@ -19,6 +20,7 @@ if (__DEV__) {
 export const store = createStore(
   combineReducers({
     products: products.reducer,
+    basket: basket.reducer,
   }),
   applyMiddleware(...middlewares),
 )
