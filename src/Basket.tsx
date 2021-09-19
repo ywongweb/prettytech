@@ -38,6 +38,7 @@ export const Basket = () => {
     <SafeAreaView style={styles.container}>
       <Button
         title="Clear basket"
+        testID="clearBtn"
         onPress={() => {
           dispatch(basket.actions.clear())
         }}
