@@ -10,6 +10,11 @@ const slice = createSlice({
     addItem: (state, action: PayloadAction<ProductItem['id']>) => {
       state.push(action.payload)
     },
+    deleteItem: (state, action: PayloadAction<ProductItem['id']>) => {
+      return state.filter(id => {
+        return id !== action.payload
+      })
+    },
     clear: () => {
       return []
     },

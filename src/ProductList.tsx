@@ -11,8 +11,13 @@ import {
 import {useAppDispatch, useAppSelector} from './redux/reduxHooks'
 import {ProductItem, products} from './redux/products.slice'
 import {basket} from './redux/basket.slice'
+import {Navigation} from 'react-native-navigation'
 
-export const ProductList = () => {
+type ProductListProps = {
+  componentId: string
+}
+
+export const ProductList = (props: ProductListProps) => {
   const dispatch = useAppDispatch()
   const items = useAppSelector(state => state.products)
   useEffect(() => {
@@ -27,15 +32,17 @@ export const ProductList = () => {
         console.log(err)
       }
     }
-
     fetchItems()
   }, [])
+
   const renderItem = ({item}: {item: ProductItem}) => {
     return (
       <View style={styles.item}>
-        <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.description}>Price: £{item.price}</Text>
+        <Text style={styles.description}>Color: {item.colour}</Text>
         <Button
-          title="Add"
+          title="Add to basket"
           onPress={() => {
             dispatch(basket.actions.addItem(item.id))
           }}
@@ -47,9 +54,13 @@ export const ProductList = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Button
-        title="Clear basket"
+        title="View basket"
         onPress={() => {
-          dispatch(basket.actions.clear())
+          Navigation.push(props.componentId, {
+            component: {
+              name: 'basketScreen',
+            },
+          })
         }}
       />
       <FlatList
@@ -72,9 +83,13 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
   },
-  title: {
-    fontSize: 32,
+  name: {
+    fontSize: 24,
+    paddingBottom: 16,
+  },
+  description: {
+    fontSize: 24,
   },
 })
 
-ProductList.displayName = ProductList
+ProductList.displayName = 'ProductList'

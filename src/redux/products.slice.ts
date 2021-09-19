@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 export type ProductItem = {
   id: string
-  color: string
+  colour: string
   name: string
   price: number
   img: string
