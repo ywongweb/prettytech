@@ -14,7 +14,7 @@ import {basket} from './redux/basket.slice'
 
 export const Basket = () => {
   const dispatch = useAppDispatch()
-
+  const basketIds = useAppSelector(state => state.basket)
   const items = useAppSelector(state => {
     const basketItem = state.basket
     return state.products.filter(product => basketItem.includes(product.id))
@@ -24,6 +24,9 @@ export const Basket = () => {
     return (
       <View style={styles.item}>
         <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.qty}>
+          Qty: {basketIds.filter(basketId => basketId === item.id).length}
+        </Text>
         <Button
           title="Delete"
           onPress={() => {
@@ -64,7 +67,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
+  },
+  qty: {
+    fontSize: 16,
   },
 })
 
